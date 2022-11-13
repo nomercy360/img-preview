@@ -11,7 +11,15 @@ function convertUnicode(input) {
 }
 
 // Make sure the font exists in the specified path:
-const font = fetch(new URL('../../assets/icons.TTF', import.meta.url)).then(
+const font = fetch('https://d262mborv4z66f.cloudfront.net/icons.TTF').then(
+  (res) => res.arrayBuffer(),
+)
+
+const textFont = fetch(new URL('../../assets/Roboto-Bold.ttf', import.meta.url)).then(
+  (res) => res.arrayBuffer(),
+)
+
+const textFontRegular = fetch(new URL('../../assets/Roboto-Regular.ttf', import.meta.url)).then(
   (res) => res.arrayBuffer(),
 )
 
@@ -37,6 +45,8 @@ export default async function handler(req: NextRequest) {
     })
   }
   const fontData = await font
+  const textFontData = await textFont
+  const textFontDataRegular = await textFontRegular
 
   const rows = []
   for (let i = 0; i < tags.length; i++) {
@@ -57,6 +67,7 @@ export default async function handler(req: NextRequest) {
         fontSize: '40px',
       }}>{convertUnicode(tags[i][1])}</span>
       <span style={{
+        fontFamily: 'Roboto',
         color: '#100f0f',
         fontSize: '36px',
         fontWeight: 'normal',
@@ -105,11 +116,13 @@ export default async function handler(req: NextRequest) {
               <h1 style={{
                 color: 'white',
                 fontSize: '72px',
+                fontFamily: 'Roboto',
                 fontWeight: 'bold',
               }}>{title}</h1>
               <h3 style={{
                 color: 'white',
                 fontSize: '48px',
+                fontFamily: 'Roboto',
                 fontWeight: 'normal',
               }}>{subtitle}</h3>
             </div>
@@ -135,6 +148,18 @@ export default async function handler(req: NextRequest) {
           data: fontData,
           style: 'normal',
           weight: 500,
+        },
+        {
+          name: 'Roboto',
+          data: textFontData,
+          style: 'normal',
+          weight: 600,
+        },
+        {
+          name: 'Roboto',
+          data: textFontDataRegular,
+          style: 'normal',
+          weight: 400,
         },
       ],
     },
