@@ -34,8 +34,9 @@ export default async function handler(req: NextRequest) {
   const subtitle = searchParams.get('subtitle')
   const avatar = searchParams.get('avatar')
   const tagsStr = searchParams.get('tags')
+  //enginering,e5cf,#75AF72|asdkasd,e5cf,#77CCA4|devops,e5cf,#1B8F8F -> [[enginering,asdkasd,devops],...]
   const tags = tagsStr.split('|').map((tag) => tag.split(','))
-
+  console.log(tags)
   // const tags = searchParams.get('tags')
   const color = searchParams.get('color')
   if (!title || !subtitle || !color || !avatar) {
@@ -63,7 +64,7 @@ export default async function handler(req: NextRequest) {
     }}>
       <span style={{
         fontFamily: 'Material Symbols Rounded',
-        color: '#405ac4',
+        color: `${tags[i][2]}`,
         fontSize: '40px',
       }}>{convertUnicode(tags[i][1])}</span>
       <span style={{
