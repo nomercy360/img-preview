@@ -33,24 +33,26 @@ export default async function httpPos(req: NextRequest) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const headers = req.headers
-  const title = headers.get('api-title')
-  const subtitle = headers.get('api-subtitle')
-  const avatar = headers.get('api-avatar')
-  const tagsStr = headers.get('api-tags')
-  const color = headers.get('api-color')
+  const params = req.nextUrl.searchParams
+  const title = params.get('title')
+  const subtitle = params.get('subtitle')
+  const color = params.get('color')
+  const avatar = params.get('avatar')
+  const tagsStr = params.get('tags')
 
-  if (!title || !subtitle || !color || !avatar || !tagsStr) {
+  const tags = tagsStr.split(';').map((tag) => {
+    if (tag !== '') {
+      const [label, color, icon] = tag.split(',')
+      return { label, color, icon }
+    }
+  })
+
+  if (!title || !subtitle || !color || !avatar || !tags) {
     return new ImageResponse(<>Doesn't exist</>, {
       width: 1200,
       height: 630,
     })
   }
-  // tagsStr = code,label,color;code,label,color
-  const tags = tagsStr.split(';').map((tag) => {
-    const [icon, label, color] = tag.split(',')
-    return { icon, label, color }
-  })
   const fontData = await font
   const textFontData = await textFont
   const textFontDataRegular = await textFontRegular
