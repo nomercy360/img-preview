@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@vercel/og": "0.0.20",
-    "next": "~12.3.3",
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
