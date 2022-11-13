@@ -23,23 +23,21 @@ const textFontRegular = fetch(new URL('../../assets/Roboto-Regular.ttf', import.
   (res) => res.arrayBuffer(),
 )
 
-export default async function handler(req: NextRequest) {
-  // check authorization
+export default async function httpPos(req: NextRequest) {
+  if (req.method !== 'POST') {
+    return new Response(null, { status: 405 })
+  }
+
   const auth = req.headers.get('x-api-key')
   if (auth !== process.env.APP_SECRET) {
     return new Response('Unauthorized', { status: 401 })
   }
-  const { searchParams } = req.nextUrl
-  const title = searchParams.get('title')
-  const subtitle = searchParams.get('subtitle')
-  const avatar = searchParams.get('avatar')
-  const tagsStr = searchParams.get('tags')
-  //enginering,e5cf,#75AF72|asdkasd,e5cf,#77CCA4|devops,e5cf,#1B8F8F -> [[enginering,asdkasd,devops],...]
-  const tags = tagsStr.split('|').map((tag) => tag.split(','))
-  console.log(tags)
-  // const tags = searchParams.get('tags')
-  const color = searchParams.get('color')
-  if (!title || !subtitle || !color || !avatar) {
+
+  const body = await req.json()
+  const { title, subtitle, avatar, tags, color } = body
+
+
+  if (!title || !subtitle || !color || !avatar || !tags) {
     return new ImageResponse(<>Doesn't exist</>, {
       width: 1200,
       height: 630,
@@ -64,16 +62,16 @@ export default async function handler(req: NextRequest) {
     }}>
       <span style={{
         fontFamily: 'Material Symbols Rounded',
-        color: `${tags[i][2]}`,
+        color: `${tags[i].color}`,
         fontSize: '40px',
-      }}>{convertUnicode(tags[i][1])}</span>
+      }}>{convertUnicode(tags[i].icon)}</span>
       <span style={{
         fontFamily: 'Roboto',
         color: '#100f0f',
         fontSize: '36px',
         fontWeight: 'normal',
         marginLeft: '10px',
-      }}>{tags[i][0]}</span>
+      }}>{tags[i].label}</span>
     </div>)
   }
 
