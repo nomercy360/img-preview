@@ -95,7 +95,6 @@ export default async function httpPos(req: NextRequest) {
         width: '100%',
         height: '100%',
         padding: '36px',
-        borderRadius: '24px',
       }}>
         <div style={{
           display: 'flex',
