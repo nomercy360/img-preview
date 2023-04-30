@@ -5,6 +5,19 @@ export const config = {
   runtime: 'experimental-edge',
 }
 
+const colors = ['#0A4D68',
+  '#088395',
+  '#05BFDB',
+  '#4e8eb6',
+  '#8294C4',
+  '#4277f8',
+  '#C9A7EB']
+
+function randomGradient(colors) {
+  const shuffledColors = colors.sort(() => 0.5 - Math.random())
+  return `linear-gradient(135deg, ${shuffledColors[0]} 0%, ${shuffledColors[1]} 25%, ${shuffledColors[2]} 50%, ${shuffledColors[3]} 75%, ${shuffledColors[4]} 100%)`
+}
+
 interface Tag {
   label: string;
   color: string;
@@ -54,6 +67,7 @@ const textFontRegular = fetch(new URL('../../assets/Roboto-Regular.ttf', import.
   (res) => res.arrayBuffer(),
 )
 
+
 // Main Function
 export default async function httpPos(req: NextRequest) {
   if (req.method !== 'GET') {
@@ -98,8 +112,7 @@ export default async function httpPos(req: NextRequest) {
       }}>{tags[i].label}</span>
     </div>)
   }
-
-  const gradientColor = `linear-gradient(135deg, #${color} 0%, #${color.slice(0, -2)}ff 100%)`
+  const gradientColor = randomGradient(colors)
 
   return new ImageResponse(
     (
