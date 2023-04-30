@@ -127,7 +127,7 @@ export default async function httpPos(req: NextRequest) {
             height='240px'
             src={avatar}
             style={{
-              borderRadius: '50%',
+              borderRadius: 36,
               objectFit: 'cover',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             }}
