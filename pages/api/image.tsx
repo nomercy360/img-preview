@@ -176,7 +176,7 @@ export default async function httpPos(req: NextRequest) {
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 flexWrap: 'wrap',
-                paddingRight: '180px',
+                paddingRight: '210px',
               }}
             >
               {rows}
