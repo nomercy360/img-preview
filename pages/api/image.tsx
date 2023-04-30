@@ -5,12 +5,43 @@ export const config = {
   runtime: 'experimental-edge',
 }
 
+interface Tag {
+  label: string;
+  color: string;
+  icon: string;
+}
+
+// Helper Functions
+function parseParameters(req: NextRequest) {
+  const params = req.nextUrl.searchParams
+
+  const title = params.get('title') || ''
+  const subtitle = params.get('subtitle') || ''
+  const color = params.get('color') || ''
+  const avatar = params.get('avatar') || ''
+  const tagsStr = params.get('tags') || ''
+
+  const tags = parseTags(tagsStr)
+
+  return { title, subtitle, color, avatar, tags }
+}
+
+function parseTags(tagsStr: string): Tag[] {
+  return tagsStr
+    .split(';')
+    .filter((tag) => tag !== '')
+    .map((tag) => {
+      const [label, color, icon] = tag.split(',')
+      return { label, color, icon }
+    })
+}
+
 function convertUnicode(input) {
   // material symbols example input: "f05d"
   return String.fromCodePoint(parseInt(input, 16))
 }
 
-// Make sure the font exists in the specified path:
+// Font Resources
 const font = fetch('https://d262mborv4z66f.cloudfront.net/icons.TTF').then(
   (res) => res.arrayBuffer(),
 )
@@ -23,36 +54,18 @@ const textFontRegular = fetch(new URL('../../assets/Roboto-Regular.ttf', import.
   (res) => res.arrayBuffer(),
 )
 
+// Main Function
 export default async function httpPos(req: NextRequest) {
   if (req.method !== 'GET') {
-    return new Response(null, { status: 405 })
+    return new Response('Invalid method', { status: 405 })
   }
 
-  const auth = req.headers.get('x-api-key')
-  if (auth !== process.env.APP_SECRET) {
-    return new Response('Unauthorized', { status: 401 })
+  const { title, subtitle, color, avatar, tags } = parseParameters(req)
+
+  if (!title || !subtitle || !color || !avatar || tags.length === 0) {
+    return new Response('Missing parameters', { status: 400 })
   }
 
-  const params = req.nextUrl.searchParams
-  const title = params.get('title')
-  const subtitle = params.get('subtitle')
-  const color = params.get('color')
-  const avatar = params.get('avatar')
-  const tagsStr = params.get('tags')
-
-  const tags = tagsStr.split(';').map((tag) => {
-    if (tag !== '') {
-      const [label, color, icon] = tag.split(',')
-      return { label, color, icon }
-    }
-  })
-
-  if (!title || !subtitle || !color || !avatar || !tags) {
-    return new ImageResponse(<>Doesn't exist</>, {
-      width: 1200,
-      height: 630,
-    })
-  }
   const fontData = await font
   const textFontData = await textFont
   const textFontDataRegular = await textFontRegular
@@ -72,7 +85,7 @@ export default async function httpPos(req: NextRequest) {
     }}>
       <span style={{
         fontFamily: 'Material Symbols Rounded',
-        color: `${tags[i].color}`,
+        color: `#${tags[i].color}`,
         fontSize: '40px',
       }}>{convertUnicode(tags[i].icon)}</span>
       <span style={{
@@ -173,3 +186,5 @@ export default async function httpPos(req: NextRequest) {
     },
   )
 }
+
+
