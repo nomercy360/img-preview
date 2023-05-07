@@ -82,6 +82,7 @@ export default async function httpPos(req: NextRequest) {
       backgroundColor: `#${tags[i].color}`,
       marginRight: '16px',
       marginBottom: '16px',
+      borderRadius: '12px',
     }}>
       <span style={{
         fontFamily: 'Material Symbols Rounded',
@@ -112,7 +113,6 @@ export default async function httpPos(req: NextRequest) {
           width: '100%',
           height: '100%',
           padding: '36px',
-          borderRadius: '24px',
         }}
       >
         <div
