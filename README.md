@@ -1,19 +1,3 @@
----
-name: Open Graph Image Generation
-slug: og-image-generation
-description: Compute and generate dynamic social card images with React components.
-framework: Next.js
-useCase: Edge Functions
-css: Tailwind
-deployUrl: https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/edge-functions/vercel-og-nextjs&project-name=vercel-og-nextjs&repository-name=vercel-og-nextjs
-demoUrl: https://og-examples.vercel.sh/api/static
-relatedTemplates: 
-  - nextjs-boilerplate
-  - aws-s3-image-upload-nextjs
-  - platforms-starter-kit
-  - blog-starter-kit
----
-
 ## Dynamic Image Generation for Profile Cards
 
 This project is a dynamic open graph image generation service, which generates images for sharing on social media platforms. It takes parameters from the URL and generates a customizable image with a title, subtitle, avatar, and a set of tags, each with an icon, label, and color.
