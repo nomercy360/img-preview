@@ -1,6 +1,6 @@
 ## Dynamic Image Generation for Profile Cards
 
-This project is a dynamic open graph image generation service, which generates images for sharing on social media platforms. It takes parameters from the URL and generates a customizable image with a title, subtitle, avatar, and a set of tags, each with an icon, label, and color.
+This project is a dynamic image generation service, which generates images for sharing on social media platforms. It takes parameters from the URL and generates a customizable image with a title, subtitle, avatar, and a set of tags, each with an icon, label, and color.
 
 ## Usage
 To use this service, make a GET request to the endpoint with the following URL parameters:
