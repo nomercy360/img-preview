@@ -17,13 +17,12 @@ function parseParameters(req: NextRequest) {
 
   const title = params.get('title') || ''
   const subtitle = params.get('subtitle') || ''
-  const color = params.get('color') || ''
   const avatar = params.get('avatar') || ''
   const tagsStr = params.get('tags') || ''
 
   const tags = parseTags(tagsStr)
 
-  return { title, subtitle, color, avatar, tags }
+  return { title, subtitle, avatar, tags }
 }
 
 function parseTags(tagsStr: string): Tag[] {
@@ -60,9 +59,9 @@ export default async function httpPos(req: NextRequest) {
     return new Response('Invalid method', { status: 405 })
   }
 
-  const { title, subtitle, color, avatar, tags } = parseParameters(req)
+  const { title, subtitle, avatar, tags } = parseParameters(req)
 
-  if (!title || !subtitle || !color || !avatar || tags.length === 0) {
+  if (!title || !subtitle || !avatar || tags.length === 0) {
     return new Response('Missing parameters', { status: 400 })
   }
 
