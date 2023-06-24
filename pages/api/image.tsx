@@ -2,7 +2,7 @@ import { ImageResponse } from '@vercel/og'
 import { NextRequest } from 'next/server'
 
 export const config = {
-  runtime: 'experimental-edge',
+  runtime: 'edge',
 }
 
 interface Tag {
@@ -53,17 +53,37 @@ const textFontRegular = fetch(new URL('../../assets/Roboto-Regular.ttf', import.
   (res) => res.arrayBuffer(),
 )
 
+async function parseJSONBody(req: NextRequest) {
+  const contentType = req.headers.get('content-type')
+
+  if (!contentType || !contentType.includes('application/json')) {
+    throw new Error('Invalid content-type. Expected application/json')
+  }
+
+  const body = await req.text()
+
+  return JSON.parse(body)
+}
+
 // Main Function
 export default async function httpPos(req: NextRequest) {
-  if (req.method !== 'GET') {
+  if (req.method !== 'POST') {
     return new Response('Invalid method', { status: 405 })
   }
 
-  const { title, subtitle, avatar, tags } = parseParameters(req)
-
-  if (!title || !subtitle || !avatar || tags.length === 0) {
-    return new Response('Missing parameters', { status: 400 })
+  // Parse the request body instead of query parameters
+  let body
+  try {
+    body = await parseJSONBody(req)
+  } catch (err) {
+    return new Response(err.message, { status: 400 })
   }
+
+  const title = body.title
+  const subtitle = body.subtitle
+  const avatar = body.avatar
+
+  const tags = body.tags
 
   const fontData = await font
   const textFontData = await textFont
