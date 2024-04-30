@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: og-img-preview
+  name: og-img-preview
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: og-img-preview
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: og-img-preview
+    spec:
+      containers:
+        - image: maksim1111/og-img-preview:latest
+          name: og-img-preview
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: og-img-preview
+  name: og-img-preview
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    service: og-img-preview
+---
