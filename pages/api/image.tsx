@@ -41,7 +41,7 @@ function convertUnicode(input) {
 }
 
 // Font Resources
-const font = fetch('https://d262mborv4z66f.cloudfront.net/icons.TTF').then(
+const font = fetch(new URL('../../assets/icons.TTF', import.meta.url)).then(
   (res) => res.arrayBuffer(),
 )
 
@@ -98,14 +98,11 @@ export default async function httpPos(req: NextRequest) {
     </div>)
   }
 
-  // get random number between 1 and 8
-  const random = Math.floor(Math.random() * 8) + 1
-
   return new ImageResponse(
     (
       <div
         style={{
-          background: `url(https://d262mborv4z66f.cloudfront.net/gradient-${random}.jpeg)`,
+          background: '#3478F6',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -122,8 +119,8 @@ export default async function httpPos(req: NextRequest) {
           }}
         >
           <img
-            width='240px'
-            height='240px'
+            width="240px"
+            height="240px"
             src={avatar}
             style={{
               borderRadius: 36,
