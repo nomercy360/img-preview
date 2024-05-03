@@ -11,30 +11,6 @@ interface Tag {
   icon: string;
 }
 
-// Helper Functions
-function parseParameters(req: NextRequest) {
-  const params = req.nextUrl.searchParams
-
-  const title = params.get('title') || ''
-  const subtitle = params.get('subtitle') || ''
-  const avatar = params.get('avatar') || ''
-  const tagsStr = params.get('tags') || ''
-
-  const tags = parseTags(tagsStr)
-
-  return { title, subtitle, avatar, tags }
-}
-
-function parseTags(tagsStr: string): Tag[] {
-  return tagsStr
-    .split(';')
-    .filter((tag) => tag !== '')
-    .map((tag) => {
-      const [label, color, icon] = tag.split(',')
-      return { label, color, icon }
-    })
-}
-
 function convertUnicode(input) {
   // material symbols example input: "f05d"
   return String.fromCodePoint(parseInt(input, 16))
@@ -54,14 +30,15 @@ const textFontRegular = fetch(new URL('../../assets/Roboto-Regular.ttf', import.
 )
 
 // Main Function
-export default async function httpPos(req: NextRequest) {
-  if (req.method !== 'GET') {
+export default async function httpPost(req: NextRequest) {
+  if (req.method !== 'POST') {
     return new Response('Invalid method', { status: 405 })
   }
 
-  const { title, subtitle, avatar, tags } = parseParameters(req)
+  const body = await req.json()
+  const { title, subtitle, avatar, tags } = body
 
-  if (!title || !subtitle || !avatar || tags.length === 0) {
+  if (!title || !subtitle || !avatar || !tags) {
     return new Response('Missing parameters', { status: 400 })
   }
 
