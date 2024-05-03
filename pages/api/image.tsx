@@ -6,7 +6,7 @@ export const config = {
 }
 
 interface Tag {
-  label: string;
+  text: string;
   color: string;
   icon: string;
 }
@@ -71,7 +71,7 @@ export default async function httpPost(req: NextRequest) {
         fontSize: '24px',
         fontWeight: 'semibold',
         marginLeft: '10px',
-      }}>{tags[i].label}</span>
+      }}>{tags[i].text}</span>
     </div>)
   }
 
