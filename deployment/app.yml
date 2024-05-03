@@ -26,10 +26,19 @@ spec:
               protocol: TCP
           resources:
             limits:
-              memory: 512Mi
+              memory: 1Gi
             requests:
               cpu: 100m
               memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 1
+            initialDelaySeconds: 30
       restartPolicy: Always
 ---
 apiVersion: v1
