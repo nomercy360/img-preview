@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       service: og-img-preview
-  strategy: {}
+  strategy: { }
   template:
     metadata:
       labels:
@@ -24,7 +24,12 @@ spec:
             - containerPort: 3000
               name: http
               protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
       restartPolicy: Always
 ---
 apiVersion: v1
