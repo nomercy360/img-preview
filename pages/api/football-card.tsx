@@ -35,7 +35,7 @@ export default async function httpPost(req: NextRequest) {
   const body = await req.json()
   const { homeTeam, awayTeam, matchDate, odds, homeCrest, awayCrest, tournament } = body
 
-  if (!homeTeam || !awayTeam || !matchDate || !odds || !homeCrest || !awayCrest || !tournament) {
+  if (!homeTeam || !awayTeam || !matchDate || !homeCrest || !awayCrest || !tournament) {
     return new Response('Missing parameters', { status: 400 })
   }
 
@@ -96,7 +96,7 @@ export default async function httpPost(req: NextRequest) {
               {homeTeam}
             </h3>
           </div>
-          <h2 style={{ color: 'white', fontSize: '64px', fontFamily: 'Roboto', fontWeight: 'bold' }}>VS</h2>
+          <h2 style={{ color: 'white', fontSize: '72px', fontFamily: 'Roboto', fontWeight: 'bold' }}>VS</h2>
           <div style={{
             textAlign: 'center',
             display: 'flex',
