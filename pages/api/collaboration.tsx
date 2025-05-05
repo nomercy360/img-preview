@@ -27,9 +27,9 @@ export default async function httpPost(req: NextRequest) {
   }
 
   const body = await req.json()
-  const { title, subtitle, avatar, tags } = body
+  const { title, subtitle, tags, user } = body
 
-  if (!title || !subtitle || !avatar || !tags) {
+  if (!title || !subtitle || !tags || !user) {
     return new Response('Missing parameters', { status: 400 })
   }
 
@@ -70,81 +70,117 @@ export default async function httpPost(req: NextRequest) {
     (
       <div
         style={{
-          // Added gradient background
-          background: 'linear-gradient(to bottom right, #3478F6, #7B61FF)',
+          background: 'linear-gradient(to bottom right, #4CAF50, #2196F3)',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
           width: '100%',
           height: '100%',
-          padding: '36px',
+          padding: '48px',
         }}
       >
         <div
           style={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             height: '100%',
+            justifyContent: 'space-between',
           }}
         >
-          <img
-            width="240px"
-            height="240px"
-            src={avatar}
-            style={{
-              borderRadius: 36,
-              objectFit: 'cover',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            }}
-          />
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              paddingLeft: '54px',
-              height: '100%',
             }}
           >
+            <h1
+              style={{
+                color: 'white',
+                fontSize: '72px',
+                fontFamily: 'Roboto',
+                fontWeight: 'bold',
+                textShadow: '2px 2px 8px rgba(0, 0, 0, 0.2)',
+                margin: 0,
+              }}
+            >
+              {title}
+            </h1>
+            <h3
+              style={{
+                color: 'white',
+                fontSize: '48px',
+                fontFamily: 'Roboto',
+                fontWeight: 'normal',
+                textShadow: '1px 1px 4px rgba(0, 0, 0, 0.2)',
+                marginTop: '16px',
+                marginBottom: '36px',
+              }}
+            >
+              {subtitle}
+            </h3>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: '16px',
+              marginBottom: '48px',
+            }}
+          >
+            {rows}
+          </div>
+
+          {/* User profile info */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              background: 'rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '20px',
+              padding: '20px 32px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              alignSelf: 'flex-start',
+            }}
+          >
+            <img
+              width="72px"
+              height="72px"
+              src={user.avatar}
+              style={{
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '2px solid white',
+              }}
+            />
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
+                marginLeft: '16px',
               }}
             >
-              <h1
+              <span
                 style={{
-                  color: 'white',
-                  fontSize: '72px',
                   fontFamily: 'Roboto',
                   fontWeight: 'bold',
-                  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                {title}
-              </h1>
-              <h3
-                style={{
                   color: 'white',
-                  fontSize: '48px',
-                  fontFamily: 'Roboto',
-                  fontWeight: 'normal',
-                  textShadow: '1px 1px 3px rgba(0, 0, 0, 0.2)',
+                  fontSize: '32px',
                 }}
               >
-                {subtitle}
-              </h3>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                flexWrap: 'wrap',
-                paddingRight: '210px',
-              }}
-            >
-              {rows}
+                {user.name}
+              </span>
+              <span
+                style={{
+                  fontFamily: 'Roboto',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '24px',
+                }}
+              >
+                {user.role}
+              </span>
             </div>
           </div>
         </div>
